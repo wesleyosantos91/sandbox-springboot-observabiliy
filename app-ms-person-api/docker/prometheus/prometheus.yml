@@ -1,0 +1,12 @@
+global:
+  # Define o intervalo padrão entre as coletas de métricas, neste caso, a cada 15 segundos.
+  scrape_interval: 15s
+
+scrape_configs:
+  # Nome dado ao conjunto de configurações para identificar as métricas coletadas.
+  - job_name: 'ms-person'
+    # Caminho no servidor onde estão disponíveis as métricas do serviço.
+    metrics_path: '/ms-person/actuator/prometheus'
+    static_configs:
+      # Lista de endereços dos servidores onde o Prometheus irá coletar as métricas. Neste caso, ele coletará dados do serviço "customer-service" rodando no container interno com host "host.docker.internal" na porta 8080.
+      - targets: ['host.docker.internal:8080']
