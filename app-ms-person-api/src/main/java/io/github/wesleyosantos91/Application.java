@@ -27,113 +27,37 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		PersonEntity entity = new PersonEntity();
-		entity.setName("Wesley Oliveira Santos");
-		entity.setCpf("03669252100");
-		entity.setEmail("wesleyosantos91@gmail.com");
-		entity.setDateOfBirth(LocalDate.of(1991, 6, 12));
 
 		try {
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
-			service.save(entity, true);
+			for (int i = 0; i < 10; i++) {
+
+				PersonEntity entity = new PersonEntity();
+				entity.setName("Wesley Oliveira Santos");
+				entity.setCpf("03669252100");
+				entity.setEmail("wesleyosantos91@gmail.com");
+				entity.setDateOfBirth(LocalDate.of(1991, 6, 12));
+				service.save(entity, true);
+			}
+
+
+			PersonEntity entity = new PersonEntity();
+			entity.setName("Wesley Oliveira Santos");
+			entity.setCpf("03669252100");
+			entity.setEmail("wesleyosantos91@gmail.com");
+			entity.setDateOfBirth(LocalDate.of(1991, 6, 12));
 			service.save(entity, true);
 			service.save(entity, false);
 			service.save(entity, false);
+			service.save(entity, false);
+			PersonEntity entity1 = new PersonEntity();
+			entity.setName("Wesley Oliveira Santos");
+			entity.setCpf("03669252100");
+			entity.setEmail("wesleyosantos91@gmail.com");
+			entity.setDateOfBirth(LocalDate.of(1991, 6, 12));
+			service.save(entity1, true);
+			service.save(entity1, false);
+			service.save(entity1, false);
+			service.save(entity1, false);
 		} catch (Exception e) {
 
 		}

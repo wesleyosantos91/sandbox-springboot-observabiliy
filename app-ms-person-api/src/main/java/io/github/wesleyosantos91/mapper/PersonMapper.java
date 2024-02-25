@@ -23,6 +23,7 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 public interface PersonMapper {
 
     PersonEntity toEntity(final PersonQueryRequest queryRequest);
+    PersonEntity toEntity(final PersonRequest request);
     PersonEntity toEntity(final PersonRequest request, @MappingTarget PersonEntity entity);
     PersonResponse toResponse(final PersonEntity entity);
 

@@ -1,13 +1,14 @@
 package io.github.wesleyosantos91.service;
 
-import io.github.wesleyosantos91.Application;
+import de.huxhorn.sulky.ulid.ULID;
 import io.github.wesleyosantos91.domain.entity.PersonEntity;
 import io.github.wesleyosantos91.domain.request.PersonQueryRequest;
-import io.github.wesleyosantos91.domain.response.PersonResponse;
+import io.github.wesleyosantos91.domain.request.PersonRequest;
+import io.github.wesleyosantos91.exception.core.ResourceNotFoundException;
 import io.github.wesleyosantos91.mapper.PersonMapper;
-import io.github.wesleyosantos91.metric.annotation.CounterExecution;
-import io.github.wesleyosantos91.metric.annotation.TimerExecution;
 import io.github.wesleyosantos91.repository.PersonRespository;
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StopWatch;
+
+import static java.text.MessageFormat.format;
 
 @Service
 public class PersonService {
@@ -29,7 +32,9 @@ public class PersonService {
         this.mapper = mapper;
     }
 
-    public Page<PersonResponse> find(PersonQueryRequest queryRequest, Pageable pageable) {
+    @Counted(value = "person.service.search")
+    @Timed(value = "person.service.search")
+    public Page<PersonEntity> search(PersonQueryRequest queryRequest, Pageable pageable) {
 
         StopWatch stopWatch = new StopWatch();
 
@@ -44,7 +49,7 @@ public class PersonService {
 
             logger.info("Finished search for people, running time {} (ms)", stopWatch.getTotalTimeMillis());
 
-            return mapper.toPageResponse(page);
+            return page;
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         } finally {
@@ -54,15 +59,66 @@ public class PersonService {
         }
     }
 
-    @CounterExecution(name = "person_counter_saved")
-    @TimerExecution(name =   "person_timer_saved")
+    @Counted(value = "person.service.save")
+    @Timed(value = "person.service.save")
     @Transactional
-    public void save(PersonEntity entity, boolean exception) {
-        if(exception) {
-            respository.save(entity);
-        } else {
-            throw new RuntimeException("teste metricas");
-        }
+    public PersonEntity create(PersonRequest request) {
+        StopWatch stopWatch = new StopWatch();
 
+        try {
+            stopWatch.start();
+
+            PersonEntity personEntity = respository.save(mapper.toEntity(request));
+            stopWatch.stop();
+
+            return personEntity;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (stopWatch.isRunning()) {
+                stopWatch.stop();
+            }
+        }
+    }
+
+    public PersonEntity findById(ULID.Value id) throws ResourceNotFoundException {
+        return respository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(format("Not found regitstry with code {0}", id)));
+    }
+
+    public void delete(ULID.Value id) {
+        StopWatch stopWatch = new StopWatch();
+
+        try {
+            stopWatch.start();
+            respository.delete(findById(id));
+            stopWatch.stop();
+        } catch (RuntimeException | ResourceNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (stopWatch.isRunning()) {
+                stopWatch.stop();
+            }
+        }
+    }
+
+    public PersonEntity update(ULID.Value id, PersonRequest request) {
+        StopWatch stopWatch = new StopWatch();
+
+        try {
+            stopWatch.start();
+
+            PersonEntity personEntity = mapper.toEntity(request, findById(id));
+            respository.save(personEntity);
+            stopWatch.stop();
+
+            return personEntity;
+        } catch (RuntimeException | ResourceNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (stopWatch.isRunning()) {
+                stopWatch.stop();
+            }
+        }
     }
 }
