@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.time.LocalDate;
 
 @SpringBootApplication
-public class Application implements CommandLineRunner {
+public class Application {
 
 	@Autowired
 	private PersonService service;
@@ -24,44 +24,4 @@ public class Application implements CommandLineRunner {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-
-
-		try {
-			for (int i = 0; i < 10; i++) {
-
-				PersonEntity entity = new PersonEntity();
-				entity.setName("Wesley Oliveira Santos");
-				entity.setCpf("03669252100");
-				entity.setEmail("wesleyosantos91@gmail.com");
-				entity.setDateOfBirth(LocalDate.of(1991, 6, 12));
-				service.save(entity, true);
-			}
-
-
-			PersonEntity entity = new PersonEntity();
-			entity.setName("Wesley Oliveira Santos");
-			entity.setCpf("03669252100");
-			entity.setEmail("wesleyosantos91@gmail.com");
-			entity.setDateOfBirth(LocalDate.of(1991, 6, 12));
-			service.save(entity, true);
-			service.save(entity, false);
-			service.save(entity, false);
-			service.save(entity, false);
-			PersonEntity entity1 = new PersonEntity();
-			entity.setName("Wesley Oliveira Santos");
-			entity.setCpf("03669252100");
-			entity.setEmail("wesleyosantos91@gmail.com");
-			entity.setDateOfBirth(LocalDate.of(1991, 6, 12));
-			service.save(entity1, true);
-			service.save(entity1, false);
-			service.save(entity1, false);
-			service.save(entity1, false);
-		} catch (Exception e) {
-
-		}
-
-
-	}
 }
